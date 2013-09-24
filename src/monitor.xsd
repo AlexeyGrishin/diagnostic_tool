@@ -1,0 +1,112 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:complexType name="paramsType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+
+    <xsd:element name="monitor">
+
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="use" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:simpleContent>
+                            <xsd:extension base="xsd:string">
+                                <xsd:attribute name="collector" type="xsd:string"/>
+                                <xsd:attribute name="validator" type="xsd:string"/>
+                            </xsd:extension>
+                        </xsd:simpleContent>
+                    </xsd:complexType>
+                </xsd:element>
+
+                <xsd:element name="global" minOccurs="0">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="param" minOccurs="0" maxOccurs="unbounded" type="paramsType"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+
+                <xsd:element name="stats">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="do" maxOccurs="unbounded" minOccurs="0">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="param" minOccurs="0" maxOccurs="unbounded" type="paramsType"/>
+                                    </xsd:sequence>
+                                    <xsd:anyAttribute/>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="stat" maxOccurs="unbounded" minOccurs="0">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="name" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+                                        <xsd:element name="group-code" minOccurs="0" maxOccurs="1" type="xsd:string"/>
+                                        <xsd:element name="collect" minOccurs="1" maxOccurs="1">
+                                            <xsd:complexType>
+                                                <xsd:simpleContent>
+                                                    <xsd:extension base="xsd:string">
+                                                        <xsd:attribute name="with" type="xsd:string"/>
+                                                    </xsd:extension>
+                                                </xsd:simpleContent>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                        <xsd:element name="every" type="xsd:string"/>
+                                        <xsd:element name="validate" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:simpleContent>
+                                                    <xsd:extension base="xsd:string">
+                                                        <xsd:attribute name="with" type="xsd:string"/>
+                                                        <xsd:attribute name="error-message" type="xsd:string"/>
+                                                        <xsd:attribute name="normal-message" type="xsd:string"/>
+                                                    </xsd:extension>
+                                                </xsd:simpleContent>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                        <xsd:element name="param" minOccurs="0" maxOccurs="unbounded" type="paramsType"/>
+                                        <xsd:element name="paranoid" type="xsd:string"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="check" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+
+
+                <xsd:element name="date-parsers">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="parser" minOccurs="0" maxOccurs="unbounded" type="xsd:string">
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+
+                </xsd:element>
+                <xsd:element name="listeners">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="listen" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="param" minOccurs="0" maxOccurs="unbounded" type="paramsType"/>
+                                    </xsd:sequence>
+                                    <xsd:attribute name="with" type="xsd:string"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+
+
+    </xsd:element>
+
+</xsd:schema>

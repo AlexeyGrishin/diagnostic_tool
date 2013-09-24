@@ -1,0 +1,91 @@
+.updating {
+    background-color: #eeeeee;
+    padding: 1em;
+    display: block;
+}
+
+h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1em;
+    line-height: 1em;
+}
+
+table th {
+    background-color: #cccccc;
+}
+
+table td.marker {
+    width: 20px;
+}
+
+table.table tr td {
+    padding: 3px;
+}
+
+table tr.first {
+    font-size: 1.2em;
+}
+/*
+table tr.even td {
+    background-color: #eeeeee;
+} */
+
+table tr.normal td.marker {
+    background-color: green;
+}
+
+table tr.error {
+    color: #8b0000;
+}
+
+table tr.error td.marker {
+    background-color: #8b0000;
+}
+
+table tr.error td {
+    background: inherit;
+}
+
+table a {
+    color: inherit;
+}
+
+table td.date {
+
+}
+
+table td.date .interval {
+    color: #666666;
+    font-size: 0.9em;
+    min-width: 60px;
+    width: 100%;
+    display: block;
+
+}
+
+table.timeline {
+    font-size: 12px;
+}
+
+table.timeline th.stat {
+    max-width: 120px;
+    /*font-size: 0.6em;*/
+}
+
+table.timeline td {
+    border-right: 2px solid white;
+}
+
+table.timeline td.error {
+    background-color: #8b0000;
+    color: white;
+}
+
+a.dropdown-toggle {
+    text-decoration: none;
+}
+
+.clear {
+    clear: both;
+}

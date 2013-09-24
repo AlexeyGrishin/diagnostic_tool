@@ -1,0 +1,42 @@
+<monitor>
+    <use collector="DirectoryFilesCounter"/>
+    <use collector="WmicProcessCounter"/>
+    <use validator="NumberValidator"/>
+    <use validator="LargerValidator"/>
+    <use validator="PresenceValidator"/>
+    <use collector="SqlQueryResultCollector"/>
+    <use collector="AvailableDiskSpaceCounter"/>
+    <use collector="HTTPResponseCodeObtainer"/>
+    <use collector="RMIAvailabilityChecker"/>
+    <use validator="NumberValidator">Shall be larger than :param MB</use>
+    <use validator="HTTPResponseCodeChecker"/>
+    <use db="jdbc:mysql://localhost:3306/stats?user=user&amp;password=password" connector="com.mysql.jdbc.Driver"/>
+
+
+    <global>
+        <param name="db-url">jdbc:mysql://localhost:3306/stats?user=user&amp;password=password</param>
+        <param name="connector-class">com.mysql.jdbc.Driver</param>
+    </global>
+    <stats>
+        <do every="1s" process-count='notepad.exe' shall-present='true' name='Count of notepads'/>
+        <do every="1s" process-count='idea.exe' shall-present='true'/>
+        <do at="14:20" sql="select count(*) from stats" shall-be-in-range="100,1000000"/>
+        <do every="1s" disk-space-on="C:" shall-be-larger="50000"/>
+        <do every="1s" http-get="http://localhost:8089/monitor/monitor.jsp" shall-be-200-ok="true">
+            <param name="http-timeout-ms">5000</param>
+        </do>
+        <do every="1s" http-get="http://localhost:8089/monitor/monitor.jsp" shall-be-200-ok="true" name="GET monitor, timeout = 0, always fail">
+            <param name="http-timeout-ms">0</param>
+        </do>
+        <do every="1s" http-get="http://localhost:8089/monitor/monitor.jsp" shall-be-200-ok="true" name="GET monitor, timeout = 70s">
+            <param name="http-timeout-ms">70000</param>
+        </do>
+        <do every="5m" rmi="rmi://localhost/Something-1" shall-present="false"/>
+        <do every="1s" name="Count of files in dropbox folder" count-of-files-in="C:\Users\Alex\Dropbox\priv" shall-be-in-range="20,25"/>
+
+    </stats>
+    <date-parsers>
+        <parser>DefaultDateParser</parser>
+    </date-parsers>
+
+</monitor>
