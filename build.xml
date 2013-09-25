@@ -1,4 +1,4 @@
-<project name="diagnostic tool">
+<project name="diagnostic tool" default="Build All">
 
     <property name="monitor.src" value="src"/>
     <property name="ui.dir" value="UI"/>
@@ -6,9 +6,9 @@
     <property name="result" value="out"/>
     <property name="monitor.classes" value="${result}/production/monitor"/>
     <property name="ui.classes" value="${result}/production/UI"/>
-    <property name="artifacts" value="${result}/artifacts"/>
-    <property name="monitor.jar" value="${artifacts}/monitor.jar"/>
-    <property name="ui.war" value="${artifacts}/monitor.war"/>
+    <property name="build" value="build"/>
+    <property name="monitor.jar" value="${build}/monitor.jar"/>
+    <property name="ui.war" value="${build}/monitor.war"/>
 
     <property name="j2ee.libs" value="C:\Program Files\Apache Software Foundation\Tomcat 6.0\lib"/>
 
@@ -31,15 +31,15 @@
     </target>
 
     <target name="monitor.jar" depends="monitor.compile">
-        <mkdir dir="${artifacts}"/>
-        <mkdir dir="${artifacts}/libs"/>
+        <mkdir dir="${build}"/>
+        <mkdir dir="${build}/libs"/>
         <jar basedir="${monitor.classes}"
              destfile="${monitor.jar}"
              manifest="${monitor.src}/com/META-INF/MANIFEST.MF"
         >
         </jar>
-        <copy file="monitor.xml" todir="${artifacts}"/>
-        <copy todir="${artifacts}/libs">
+        <copy file="monitor.xml" todir="${build}"/>
+        <copy todir="${build}/libs">
             <fileset refid="libs"/>
         </copy>
 
@@ -57,7 +57,7 @@
         </javac>
     </target>
 
-    <target name="ui.war">
+    <target name="ui.war" depends="ui.compile">
         <war warfile="${ui.war}">
             <classes dir="${ui.classes}"/>
             <webinf dir="${ui.dir}/web/WEB-INF"/>
@@ -68,5 +68,12 @@
             </resources>
         </war>
     </target>
+
+    <target name="clean">
+        <delete dir="${build}"/>
+        <mkdir dir="${build}"/>
+    </target>
+
+    <target name="Build All" depends="clean, monitor.jar, ui.war"/>
 
 </project>
