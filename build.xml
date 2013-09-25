@@ -1,0 +1,72 @@
+<project name="diagnostic tool">
+
+    <property name="monitor.src" value="src"/>
+    <property name="ui.dir" value="UI"/>
+    <property name="ui.src" value="UI/src"/>
+    <property name="result" value="out"/>
+    <property name="monitor.classes" value="${result}/production/monitor"/>
+    <property name="ui.classes" value="${result}/production/UI"/>
+    <property name="artifacts" value="${result}/artifacts"/>
+    <property name="monitor.jar" value="${artifacts}/monitor.jar"/>
+    <property name="ui.war" value="${artifacts}/monitor.war"/>
+
+    <property name="j2ee.libs" value="C:\Program Files\Apache Software Foundation\Tomcat 6.0\lib"/>
+
+    <fileset id="libs" dir="libs">
+        <include name="*.jar"/>
+    </fileset>
+
+    <fileset id="j2ee.libs" dir="${j2ee.libs}">
+        <include name="*.jar"/>
+    </fileset>
+
+    <target name="monitor.compile">
+        <delete dir="${monitor.classes}"/>
+        <mkdir dir="${monitor.classes}"/>
+        <javac srcdir="${monitor.src}" destdir="${monitor.classes}">
+            <classpath>
+                <fileset refid="libs"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="monitor.jar" depends="monitor.compile">
+        <mkdir dir="${artifacts}"/>
+        <mkdir dir="${artifacts}/libs"/>
+        <jar basedir="${monitor.classes}"
+             destfile="${monitor.jar}"
+             manifest="${monitor.src}/com/META-INF/MANIFEST.MF"
+        >
+        </jar>
+        <copy file="monitor.xml" todir="${artifacts}"/>
+        <copy todir="${artifacts}/libs">
+            <fileset refid="libs"/>
+        </copy>
+
+    </target>
+
+    <target name="ui.compile" depends="monitor.compile">
+        <delete dir="${ui.classes}"/>
+        <mkdir dir="${ui.classes}"/>
+        <javac srcdir="${ui.src}" destdir="${ui.classes}">
+            <classpath>
+                <fileset refid="libs"/>
+                <fileset refid="j2ee.libs"/>
+                <path path="${monitor.classes}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="ui.war">
+        <war warfile="${ui.war}">
+            <classes dir="${ui.classes}"/>
+            <webinf dir="${ui.dir}/web/WEB-INF"/>
+            <lib refid="libs"/>
+            <resources>
+                <fileset dir="${ui.dir}/web" excludes="${ui.dir}/web/WEB-INF/*">
+                </fileset>
+            </resources>
+        </war>
+    </target>
+
+</project>

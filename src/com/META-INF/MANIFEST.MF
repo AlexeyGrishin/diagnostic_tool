@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
-Class-Path: ..\lib\*
+Class-Path: libs\log4j.jar libs\smtp.jar libs\mail.jar libs\mysql-connector-java-5.1.22-bin.jar
 Main-Class: com.actimind.diagnostic.Monitor
 
