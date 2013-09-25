@@ -1,3 +1,0 @@
-<%
-    response.sendRedirect("monitor.jsp");
-%>
